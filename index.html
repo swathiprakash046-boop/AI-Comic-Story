@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Comic Story Generator</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            min-height: 100vh;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #6a11cb;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 15px;
+            margin-bottom: 7px;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: #6a11cb;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #5010a0;
+        }
+
+        #comic {
+            margin-top: 35px;
+            display: none;
+        }
+
+        .comic-title {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .panels {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .panel {
+            min-height: 280px;
+            border: 5px solid #222;
+            border-radius: 10px;
+            padding: 15px;
+            background: #fffbe6;
+            position: relative;
+            box-shadow: 5px 5px 0 #222;
+        }
+
+        .panel-number {
+            background: #222;
+            color: white;
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .scene {
+            font-size: 50px;
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .description {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .speech {
+            margin-top: 15px;
+            background: white;
+            border: 2px solid #222;
+            border-radius: 20px;
+            padding: 12px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 700px) {
+            .panels {
+                grid-template-columns: 1fr;
+            }
+
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🤖 AI Comic Story Generator</h1>
+    <p class="subtitle">
+        Create your own comic story with characters, scenes and dialogue!
+    </p>
+
+    <label>Comic Story Topic</label>
+    <input
+        type="text"
+        id="topic"
+        placeholder="Example: A robot saves the city"
+    >
+
+    <label>Main Characters</label>
+    <input
+        type="text"
+        id="characters"
+        placeholder="Example: Robo, Maya, Dr. Evil"
+    >
+
+    <label>Comic Style</label>
+    <select id="style">
+        <option>Superhero</option>
+        <option>Funny</option>
+        <option>Adventure</option>
+        <option>Science Fiction</option>
+        <option>Fantasy</option>
+        <option>Horror</option>
+    </select>
+
+    <label>Story Description</label>
+    <textarea
+        id="description"
+        placeholder="Describe what you want the comic to be about..."
+    ></textarea>
+
+    <button onclick="generateComic()">
+        ✨ Generate Comic Story
+    </button>
+
+    <div id="comic">
+
+        <h2 class="comic-title" id="comicTitle"></h2>
+
+        <div class="panels" id="panels"></div>
+
+    </div>
+
+</div>
+
+<script>
+
+function generateComic() {
+
+    const topic =
+        document.getElementById("topic").value ||
+        "The Mysterious Adventure";
+
+    const characters =
+        document.getElementById("characters").value ||
+        "Alex and Robo";
+
+    const style =
+        document.getElementById("style").value;
+
+    const description =
+        document.getElementById("description").value ||
+        "An exciting adventure begins.";
+
+    document.getElementById("comic").style.display = "block";
+
+    document.getElementById("comicTitle").innerText =
+        "📖 " + topic;
+
+    const panels = [
+        {
+            emoji: "🌆",
+            scene: "The Beginning",
+            text:
+                `In a ${style.toLowerCase()} world, ${characters} discover something strange. ${description}`,
+            speech:
+                `"Something unusual is happening!"`
+        },
+
+        {
+            emoji: "😱",
+            scene: "The Problem",
+            text:
+                `${characters} suddenly face a dangerous challenge. The situation becomes more serious.`,
+            speech:
+                `"We have to do something!"`
+        },
+
+        {
+            emoji: "⚡",
+            scene: "The Battle",
+            text:
+                `The heroes work together and use their skills to overcome the challenge.`,
+            speech:
+                `"Together, we can win!"`
+        },
+
+        {
+            emoji: "🏆",
+            scene: "The Ending",
+            text:
+                `After an exciting adventure, ${characters} successfully save the day.`,
+            speech:
+                `"We did it!"`
+        }
+    ];
+
+    const panelContainer =
+        document.getElementById("panels");
+
+    panelContainer.innerHTML = "";
+
+    panels.forEach((panel, index) => {
+
+        const div = document.createElement("div");
+
+        div.className = "panel";
+
+        div.innerHTML = `
+            <span class="panel-number">
+                Panel ${index + 1}
+            </span>
+
+            <div class="scene">
+                ${panel.emoji}
+            </div>
+
+            <h3>${panel.scene}</h3>
+
+            <p class="description">
+                ${panel.text}
+            </p>
+
+            <div class="speech">
+                💬 ${panel.speech}
+            </div>
+        `;
+
+        panelContainer.appendChild(div);
+    });
+}
+
+</script>
+
+</body>
+</html>
